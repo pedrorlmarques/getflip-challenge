@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: short-url-service
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  mvc:
+    problemdetails:
+      enabled: true
+  threads:
+    virtual:
+      enabled: true
+
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: /api-docs
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
