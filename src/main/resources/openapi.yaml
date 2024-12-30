@@ -1,0 +1,93 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Short URL Service
+tags:
+  - name: create-short-url-use-case-controller
+    description: controller to create short URL
+  - name: get-long-url-use-case-controller
+    description: controller to get long URL
+paths:
+  "/api/v1/url/shorten":
+    post:
+      tags:
+        - create-short-url-use-case-controller
+      operationId: getShortURL
+      parameters:
+        - name: long_url
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CreateShortURLResponse"
+        '404':
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ProblemDetail"
+  "/api/v1/url/{short-url}":
+    get:
+      tags:
+        - get-long-url-use-case-controller
+      operationId: getLongUrl
+      parameters:
+        - name: short-url
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/GetLongURLResponse"
+        '404':
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ProblemDetail"
+components:
+  schemas:
+    ProblemDetail:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+          format: int32
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uri
+        properties:
+          type: object
+          additionalProperties:
+            type: object
+    CreateShortURLResponse:
+      type: object
+      properties:
+        short_url:
+          type: string
+    GetLongURLResponse:
+      type: object
+      properties:
+        long_url:
+          type: string
